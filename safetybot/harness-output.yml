@@ -1,0 +1,10 @@
+PROJECT_NAME: "safetybot"
+OUTPUT_DIR: "output"
+PARTS: 
+  - "robstride-01-2+2"
+  - "robstride-01-split"
+  - "power-extender"
+  - "robstride-04-in"
+  - "robstride-04-out"
+OUTPUT_FORMAT: "html"
+COMBINE_BOM: "true"
