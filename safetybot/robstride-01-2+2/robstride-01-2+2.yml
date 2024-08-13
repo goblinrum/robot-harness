@@ -6,16 +6,22 @@ connectors:
     pins: [1, 2, 3, 4]
     pinlabels: [VBAT, GND, CAN_H, CAN_L]
     notes: "XT-30 (2+2) to 2x XT-30 (2+2) cables"
+    image: 
+      src: ../../lib/XT30-2-2.png
   X2:
     type: XT-30 (2+2)-F
     subtype: female
     pins: [1, 2, 3, 4]
     pinlabels: [VBAT, GND, CAN_H, CAN_L]
+    image: 
+      src: ../../lib/XT30-2-2.png
   X3:
     type: XT-30 (2+2)-F
     subtype: female
     pins: [1, 2, 3, 4]
     pinlabels: [VBAT, GND, CAN_H, CAN_L]
+    image: 
+      src: ../../lib/XT30-2-2.png
 
 cables:
   # XT-30 extension cables between motors

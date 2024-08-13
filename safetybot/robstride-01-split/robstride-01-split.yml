@@ -6,16 +6,22 @@ connectors:
     pins: [1, 2, 3, 4]
     pinlabels: [VBAT, GND, CAN_H, CAN_L]
     notes: "XT-30 (2+2) from Robstride 01s"
+    image: 
+      src: ../../lib/XT30-2-2.png
   X2:
     type: XT-30U-F
     subtype: female
     pins: [1, 2]
     pinlabels: [VBAT, GND]
+    image: 
+      src: ../../lib/XT30.png
   X3:
     type: XT-30U-M
     subtype: male
     pins: [1, 2]
     pinlabels: [VBAT, GND]
+    image: 
+      src: ../../lib/XT30.png
   X4:
     type: JST PH-2.0R
     subtype: female

@@ -6,11 +6,15 @@ connectors:
     pins: [1, 2]
     pinlabels: [VBAT, GND]
     notes: XT30 patch cable
+    image: 
+      src: ../../lib/XT30.png
   X2:
     type: XT-30U-M
     subtype: male
     pins: [1, 2]
     pinlabels: [VBAT, GND]
+    image: 
+      src: ../../lib/XT30.png
 
 cables:
   W1:

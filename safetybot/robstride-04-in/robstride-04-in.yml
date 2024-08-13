@@ -5,11 +5,15 @@ connectors:
     pins: [1, 2]
     pinlabels: [VBAT, GND]
     notes: "Power INTO Robstride 04"
+    image: 
+      src: ../../lib/XT30.png
   X2: 
     type: XT-30U-M
     subtype: male
     pins: [1, 2]
     pinlabels: [VBAT, GND]
+    image: 
+      src: ../../lib/XT30.png
   X3: 
     type: JST GH-1.25P
     subtype: female

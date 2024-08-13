@@ -3,6 +3,7 @@ import subprocess
 import shutil
 import pandas as pd
 from PIL import Image, ImageOps
+from bs4 import BeautifulSoup
 
 def load_environment_file(file_path):
     import yaml
@@ -62,14 +63,74 @@ def combine_boms(parts, output_dir, root_dir):
                 combined_bom = pd.concat([combined_bom, part_bom])
 
     if combined_bom is not None:
-        # Group by Description and combine Qty and Designators
+        # Group by Description and combine Qty and Designators, removing duplicates
         combined_bom = combined_bom.groupby('Description', as_index=False).agg({
             'Qty': 'sum',
-            'Designators': lambda x: ', '.join(x)
+            'Designators': lambda x: ', '.join(sorted(set(', '.join(x).split(', '))))
         })
 
         combined_bom_path = os.path.join(output_dir, 'combined_bom.tsv')
         combined_bom.to_csv(combined_bom_path, sep='\t', index=False)
+
+    return combined_bom
+
+
+def combine_htmls(parts, output_dir, root_dir):
+    combined_html = None
+
+    for part in parts:
+        part_html_path = os.path.join(output_dir, f'{part}.html')
+        print(f"Processing {part_html_path}")  # Debug print
+        if os.path.exists(part_html_path):
+            with open(part_html_path, 'r') as file:
+                soup = BeautifulSoup(file, 'html.parser')
+                diagram_div = soup.find('div', id='diagram')
+                if diagram_div is None:
+                    print(f"No diagram found in {part_html_path}")
+                    continue
+                
+                if combined_html is None:
+                    combined_html = soup
+                    combined_diagram_div = combined_html.find('div', id='diagram')
+                    if combined_diagram_div:
+                        combined_diagram_div.clear()
+                    else:
+                        print(f"No combined diagram div found in {part_html_path}")
+                        continue
+                
+                print(f"Appending content from {part_html_path}")  # Debug print
+                for content in diagram_div.contents:
+                    combined_diagram_div.append(content)
+
+    if combined_html:
+        print("HTML combination successful")
+    else:
+        print("HTML combination failed or no content found")
+
+    return combined_html
+
+
+
+def insert_bom_to_html(combined_bom, combined_html):
+    bom_div = combined_html.find('div', id='bom')
+    bom_table = bom_div.find('table')
+
+    for idx, row in combined_bom.iterrows():
+        tr = combined_html.new_tag('tr')
+        td_id = combined_html.new_tag('td', attrs={'class': 'bom_col_id'})
+        td_description = combined_html.new_tag('td', attrs={'class': 'bom_col_description'})
+        td_qty = combined_html.new_tag('td', attrs={'class': 'bom_col_qty'})
+        td_unit = combined_html.new_tag('td', attrs={'class': 'bom_col_unit'})
+        td_designators = combined_html.new_tag('td', attrs={'class': 'bom_col_designators'})
+        
+        td_id.string = str(idx + 1)
+        td_description.string = row['Description']
+        td_qty.string = str(row['Qty'])
+        td_unit.string = row.get('Unit', '')
+        td_designators.string = row['Designators']
+
+        tr.extend([td_id, td_description, td_qty, td_unit, td_designators])
+        bom_table.append(tr)
 
 def main():
     # Load environment file
@@ -99,10 +160,20 @@ def main():
     if env['OUTPUT_FORMAT'] == 'png' and png_files:
         output_path = os.path.join(root_dir, f"{root_dir}-harness.png")
         stitch_pngs(png_files, output_path)
-    
+        
     # Combine BOMs if needed
+    combined_bom = None
     if env.get('COMBINE_BOM', 'false').lower() == 'true':
-        combine_boms(env['PARTS'], output_dir, root_dir)
+        combined_bom = combine_boms(env['PARTS'], output_dir, root_dir)
+    
+    # If the output format is HTML, combine HTML and generate BOM
+    if env['OUTPUT_FORMAT'] == 'html':
+        combined_html = combine_htmls(env['PARTS'], output_dir, root_dir)
+        if combined_html:
+            insert_bom_to_html(combined_bom, combined_html)
+            final_html_path = os.path.join(output_dir, f"{root_dir}-harness.html")
+            with open(final_html_path, 'w') as file:
+                file.write(str(combined_html))
 
 if __name__ == "__main__":
     main()

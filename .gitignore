@@ -10,3 +10,9 @@
 
 # Do not ignore python
 !*.py
+
+# do not ignore lib/ folder
+!lib/
+
+# do not ignore lib folder contents
+!lib/**
