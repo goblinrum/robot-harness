@@ -23,7 +23,7 @@ connectors:
     pinlabels: [CAN_H, CAN_L]
   X5:
     type: JST PH-2.0P
-    subtype: male
+    subtype: female
     pins: [1, 2]
     pinlabels: [CAN_H, CAN_L]
 

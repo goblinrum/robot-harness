@@ -6,5 +6,5 @@ PARTS:
   - "power-extender"
   - "robstride-04-in"
   - "robstride-04-out"
-OUTPUT_FORMAT: "html"
+OUTPUT_FORMAT: "png"
 COMBINE_BOM: "true"

@@ -28,7 +28,8 @@ def combine_boms(parts, output_dir, root_dir):
     combined_bom = None
 
     for part in parts:
-        part_bom_path = os.path.join(root_dir, part, 'bom.tsv')
+        part_bom_path = os.path.join(root_dir, part, f'{part}.bom.tsv')
+        print(part_bom_path)
         if os.path.exists(part_bom_path):
             part_bom = pd.read_csv(part_bom_path, sep='\t')
             if combined_bom is None:
