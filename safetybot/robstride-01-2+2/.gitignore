@@ -1,0 +1,9 @@
+# Ignore everything in the folder
+*
+
+# But do not ignore .gitignore itself
+!.gitignore
+
+# Do not ignore YAML files
+!*.yaml
+!*.yml

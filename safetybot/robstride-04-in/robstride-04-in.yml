@@ -1,0 +1,50 @@
+connectors:
+  X1:
+    type: XT30U-F
+    subtype: female
+    pins: [1, 2]
+    pinlabels: [VBAT, GND]
+    notes: "Power INTO Robstride 04"
+  X2: 
+    type: XT30U-M
+    subtype: male
+    pins: [1, 2]
+    pinlabels: [VBAT, GND]
+  X3: 
+    type: JST GH-1.25P
+    subtype: female
+    pins: [1, 2]
+    pinlabels: [CAN_H, CAN_L]
+    notes: "CAN INTO Robstride 04"
+  X4:
+    type: JST GH-1.25R
+    subtype: male
+    pins: [1, 2]
+    pinlabels: [CAN_H, CAN_L]
+
+cables:
+  W1:
+    gauge: 16 AWG
+    length: 20 mm
+    color_code: DIN
+    wirecount: 2
+    colors: [RD, BK]
+    shield: false
+  W2:
+    gauge: 22 AWG
+    length: 20 mm
+    color_code: DIN
+    wirecount: 2
+    colors: [YE, BU]
+    shield: true
+    notes: "Shielded Twisted pair"
+
+connections:
+  - 
+    - X1: [1, 2]
+    - W1: [1, 2]
+    - X2: [1, 2]
+  -
+    - X3: [1, 2]
+    - W2: [1, 2]
+    - X4: [1, 2]

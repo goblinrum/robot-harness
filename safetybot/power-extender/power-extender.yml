@@ -1,0 +1,28 @@
+connectors:
+  # XT-30 extension cables between motors
+  X1:
+    type: XT-30U-F
+    subtype: female
+    pins: [1, 2]
+    pinlabels: [VBAT, GND]
+    notes: XT30 patch cable
+  X2:
+    type: XT-30U-M
+    subtype: male
+    pins: [1, 2]
+    pinlabels: [VBAT, GND]
+
+cables:
+  W1:
+    gauge: 16 AWG
+    length: 20 mm
+    color_code: DIN
+    wirecount: 2
+    colors: [RD, BK]
+    shield: false
+
+connections:
+  - 
+    - X1: [1, 2]
+    - W1: [1, 2]
+    - X2: [1, 2]
